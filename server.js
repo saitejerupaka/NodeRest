@@ -3,39 +3,21 @@ var bodyParser = require('body-parser');
 var commandLineArgs = require('command-line-args');
 
 var app = express();
+
 var definition = [
   { name: 'host', type: String, description: 'Takes the host address'},
   { name: 'port', type: Number, description: 'Takes port Number' }
 ];
-var cli = commandLineArgs(definition); //TO-Do check errors here 
+var cli = commandLineArgs(definition); //To-Do check errors here 
+var arguments = cli.parse();
 
-var options = cli.parse();
-
-var port = options.port || 3000;
-
-var host = options.host || localhost;
+var port = arguments.port || 3000;
+var host = arguments.host || 'localhost';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-
-var Measurements = [
-{
-	'Time': '2015',
-	WeatherParams: {
-		Temperature: '30',
-		Dew : '20'
-	}
-
-},
-{
-	'Time': '2014',
-	WeatherParams: {
-		Temperature: '20',
-		Dew : '40'
-	}
-}
-];
+var Measurements = require('./Models/MeasurementModel');
 
 measurementRouter = require('./Routes/measurementRoutes')(Measurements);
 

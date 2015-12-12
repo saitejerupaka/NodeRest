@@ -3,12 +3,9 @@ var _ = require('lodash');
 
 var routes = function(Measurements){
 	var measurementRouter = express.Router();
-
+	var measurementController = require('../Controllers/MeasurementController')(Measurements);
 	measurementRouter.route('/')
-		.post(function(req, res){
-			var measurement = req.body;
-			Measurements.push(measurement);
-		})
+		.post(measurementController.post)
 		.get(function(req, res){
 			res.json(Measurements);
 		});
