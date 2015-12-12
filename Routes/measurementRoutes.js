@@ -1,30 +1,18 @@
 var express = require('express');
 var _ = require('lodash');
 
-var routes = function(Measurements){
+var routes = function(MeasurementModel){
 	var measurementRouter = express.Router();
-	var measurementController = require('../Controllers/MeasurementController')(Measurements);
+	var measurementController = require('../Controllers/MeasurementController')(MeasurementModel);
 	measurementRouter.route('/')
 		.post(measurementController.post)
-		.get(function(req, res){
-			res.json(Measurements);
-		});
+		.get(measurementController.get);
 
-	measurementRouter.use('/:time', function(req, res, next){
-		// do validations  on request param before searching 
-		var measurementRequestedId = _(Measurements).findIndex(function(element){
-				return element.Time === req.params.time;
-			});
-		req.measurementRequestedId = measurementRequestedId;
-		next();
-		//if error finding send error here 
-	});
+	var middleware = require('./Middleware')(MeasurementModel);
+	measurementRouter.use('/:time', middleware.findByRequestedTimeStamp);
 
 	measurementRouter.route('/:time')
-		.get(function(req, res){
-			
-			res.json(Measurements[req.measurementRequestedId]);
-		})
+		.get(measurementController.getByTimeStamp)
 		.put(function(req, res){
 			Measurements[req.measurementRequestedId].WeatherParams.Temperature = req.body.WeatherParams.Temperature;
 			Measurements[req.measurementRequestedId].WeatherParams.Dew = req.body.WeatherParams.Dew;

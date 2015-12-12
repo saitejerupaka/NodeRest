@@ -17,9 +17,9 @@ var host = arguments.host || 'localhost';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-var Measurements = require('./Models/MeasurementModel');
+var MeasurementModel = require('./Models/MeasurementModel')();
 
-measurementRouter = require('./Routes/measurementRoutes')(Measurements);
+measurementRouter = require('./Routes/measurementRoutes')(MeasurementModel);
 
 app.use('/api/measurements', measurementRouter);
 
