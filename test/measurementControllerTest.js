@@ -1,6 +1,6 @@
 var should = require('chai').should();
 var sinon = require('sinon');
-var constants = require('../Controllers/Constants')();
+var constants = require('../controllers/constants')();
 
 describe('Measurement Controller Tests', function(){
 	describe('Canary', function(){
@@ -17,7 +17,7 @@ describe('Measurement Controller Tests', function(){
                 findByTimeStamp: function(args){
                     return false;
                 }};
-			testContext.measurementController = require('../Controllers/MeasurementController')(testContext.MeasurementModel);
+			testContext.measurementController = require('../controllers/measurementController')(testContext.MeasurementModel);
 
 		});
 		it('should save a metric', function(){
@@ -52,7 +52,7 @@ describe('Measurement Controller Tests', function(){
                     return true;
                 }
             }
-            var measurementController = require('../Controllers/MeasurementController')(this.MeasurementModel);
+            var measurementController = require('../controllers/measurementController')(this.MeasurementModel);
             var req = {
                 body: {
                         'TimeStamp': '2015',
@@ -107,7 +107,7 @@ describe('Measurement Controller Tests', function(){
                 }
             };
             testContext.measurementController =
-                         require('../Controllers/MeasurementController')(testContext.MeasurementModel);
+                         require('../controllers/measurementController')(testContext.MeasurementModel);
             testContext.req = {};
             testContext.res = {
                 json: sinon.spy()
@@ -122,7 +122,7 @@ describe('Measurement Controller Tests', function(){
                 }
             };
             var measurementController =
-                         require('../Controllers/MeasurementController')(MeasurementModel);
+                         require('../controllers/measurementController')(MeasurementModel);
             measurementController.get(this.req, this.res);
             this.res.json.calledWith([]).should.equal(true);
         })

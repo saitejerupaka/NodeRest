@@ -1,6 +1,6 @@
 var should = require('chai').should();
 var sinon = require('sinon');
-var constants = require('../Controllers/Constants')();
+var constants = require('../controllers/constants')();
 
 describe('MiddleWare Tests', function(){
 	before(function(){
@@ -17,7 +17,7 @@ describe('MiddleWare Tests', function(){
 				return 1;
 			}
 		}
-		testContext.middleware = require('../Routes/Middleware')(testContext.MeasurementModel);
+		testContext.middleware = require('../routes/middleware')(testContext.MeasurementModel);
 	});
 	it('should find indexof requested by timestamp and add to request object', function(){
 		var testContext = this;
@@ -33,7 +33,7 @@ describe('MiddleWare Tests', function(){
 				return 1;
 			}
 		}
-		testContext.middleware = require('../Routes/Middleware')(testContext.MeasurementModel);
+		testContext.middleware = require('../routes/middleware')(testContext.MeasurementModel);
 		this.middleware.findByRequestedTimeStamp(this.req, this.res, this.next);
 
 
@@ -58,7 +58,7 @@ describe('MiddleWare Tests', function(){
 				return -1;
 			}
 		}
-		testContext.middleware = require('../Routes/Middleware')(testContext.MeasurementModel);
+		testContext.middleware = require('../routes/middleware')(testContext.MeasurementModel);
 		this.middleware.findByRequestedTimeStamp(this.req, this.res, this.next);
 
 		this.res.status.calledWith(404).should.equal(true);

@@ -1,5 +1,5 @@
 
-var constants = require('./Constants')();
+var constants = require('./constants')();
 var measurementController = function(MeasurementModel)
 {
 	var post = function(req, res){

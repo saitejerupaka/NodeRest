@@ -3,12 +3,12 @@ var _ = require('lodash');
 
 var routes = function(MeasurementModel){
 	var measurementRouter = express.Router();
-	var measurementController = require('../Controllers/MeasurementController')(MeasurementModel);
+	var measurementController = require('../controllers/measurementController')(MeasurementModel);
 	measurementRouter.route('/')
 		.post(measurementController.post)
 		.get(measurementController.get);
 
-	var middleware = require('./Middleware')(MeasurementModel);
+	var middleware = require('./middleware')(MeasurementModel);
 	measurementRouter.use('/:time', middleware.findByRequestedTimeStamp);
 
 	measurementRouter.route('/:time')

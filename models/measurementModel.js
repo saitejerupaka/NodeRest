@@ -1,5 +1,5 @@
 var lodash = require('lodash');
-var MeasurementModel = function(){
+var measurementModel = function(){
 	Measurement = [];
 	var save = function(arguments)
 	{
@@ -41,4 +41,4 @@ var MeasurementModel = function(){
 }
 
 
-module.exports = MeasurementModel;
+module.exports = measurementModel;
