@@ -21,7 +21,7 @@ var measurementModel = function(){
 		return Measurement;
 	}
 
-	var getByTimeStamp = function(timestamp){
+	var getByDay = function(timestamp){
 		var response = [];
 		var pushAllWithSameTimeStamp = function(element){
 			if(lodash(element['timestamp']).startsWith(timestamp))
@@ -34,12 +34,35 @@ var measurementModel = function(){
 		return response;
 
 		
-	}
+	};
 
 	var findRequestedTimeStampIndex = function(timestamp)
 	{
 		var index = lodash(Measurement).findIndex({ 'timestamp' : timestamp });
 		return index;
+	};
+
+	var updateMeasurement = function(index, measurementValue){
+		Measurement[index] = measurementValue;	
+	};
+
+	var updateMetric = function(index, measurementValue, callback){
+		if(measurementValue['timestamp'])
+			{
+				delete measurementValue['timestamp'];
+			}
+		for(var metric in measurementValue)
+		{
+			Measurement[index][metric] = measurementValue[metric];
+		
+		}
+
+		callback();
+	}
+
+	var remove = function(timestamp, callback){
+		Measurement = lodash(Measurement).reject({'timestamp': timestamp}).value();
+		callback();
 	}
 
 	return {
@@ -47,7 +70,10 @@ var measurementModel = function(){
 		findByTimeStamp : findByTimeStamp,
 		getAll: getAll,
 		findRequestedTimeStampIndex : findRequestedTimeStampIndex,
-		getByTimeStamp: getByTimeStamp
+		getByDay: getByDay,
+		updateMeasurement: updateMeasurement,
+		updateMetric: updateMetric,
+		remove: remove
 	}
 }
 

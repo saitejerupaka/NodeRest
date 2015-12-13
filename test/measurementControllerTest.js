@@ -39,6 +39,7 @@ describe('Measurement Controller Tests', function(){
 			measurementController.post(req, res);
 			res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
             res.send.calledWith().should.equal(true);
+            res.send.calledOnce.should.equal(true);
 		});
         it('should save a metric with value 32.32', function(){
 
@@ -56,6 +57,7 @@ describe('Measurement Controller Tests', function(){
             measurementController.post(req, res);
             res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
             res.send.calledWith().should.equal(true);
+            res.send.calledOnce.should.equal(true);
         });
 		it('should not save on same timestamp', function(){
             this.MeasurementModel = {
@@ -84,6 +86,7 @@ describe('Measurement Controller Tests', function(){
 
             res.status.calledWith(400).should.equal(true, 'Status responded is not correct' + res.status.args[0]);
             res.send.calledWith(constants['DuplicateTimeStamp']).should.equal(true);
+            res.send.calledOnce.should.equal(true);
 		})
         it('should save a metric with value -273.30', function(){
 
@@ -101,6 +104,7 @@ describe('Measurement Controller Tests', function(){
             measurementController.post(req, res);
             res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
             res.send.calledWith().should.equal(true);
+            res.send.calledOnce.should.equal(true);
         });
         it('should not save if no timestamp', function(){
             var req = {
@@ -117,6 +121,7 @@ describe('Measurement Controller Tests', function(){
 
             res.status.calledWith(400).should.equal(true, 'Status responded is not correct-' + res.status.args[0]);
             res.send.calledWith(constants['TimeStampNotFound']).should.equal(true);
+            res.send.calledOnce.should.equal(true);
         })
 
         it('should not save if metrics are not float values', function(){
@@ -134,7 +139,8 @@ describe('Measurement Controller Tests', function(){
             this.measurementController.post(req, res);
 
             res.status.calledWith(400).should.equal(true, 'Status responded is not correct-' + res.status.args[0]);
-            res.send.calledWith(constants['InvalidRequestParam']).should.equal(true);
+            res.send.calledWith(constants['InvalidValues']).should.equal(true);
+            res.send.calledOnce.should.equal(true);
         })
 	})
     
@@ -195,7 +201,7 @@ describe('Measurement Controller Tests', function(){
             }
             var MeasurementModel = {
 
-                getByTimeStamp: function(args){
+                getByDay: function(args){
                    return [{
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature' : 33
@@ -224,7 +230,7 @@ describe('Measurement Controller Tests', function(){
             }
             var MeasurementModel = {
 
-                getByTimeStamp: function(args){
+                getByDay: function(args){
                    return [{
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature' : 33
@@ -259,6 +265,259 @@ describe('Measurement Controller Tests', function(){
         })
     })
 
+    describe('Put Measurement by TimeStamp', function(){
+        it('should replace measurement with given', function(){
+            var MeasurementModel = {
+                updateMeasurement : function(index, value){}
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
 
+            var req = {
+                    body: {
+                        'timestamp': '2015',
+                        'temperature' : '32'
+                        },
+                    measurementRequestedId: 1,
+                    params:
+                    {
+                        'time': '2015'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy(),
+                json: sinon.spy()
+            }
+            var expected = {
+                        'timestamp': '2015',
+                        'temperature' : '32'
+                        };
+            measurementController.put(req, res);
+            res.status.calledWith(204).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.json.calledOnce.should.equal(true);
+            res.json.calledWith(expected).should.equal(true);
+        })
+        it('should not replace if timestamp is different', function(){
+            var MeasurementModel = {
+                updateMeasurement : function(index, value){}
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
 
+            var req = {
+                    body: {
+                        'timestamp': '2015-10-13',
+                        'temperature' : '32'
+                        },
+                    measurementRequestedId: 1,
+                    params:{
+                        'time': '2015-10-12'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy()
+            }
+            measurementController.put(req, res);
+            res.status.calledWith(409).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith(constants['MismatchedTimeStamps']).should.equal(true);
+        })
+        it('should not replace if metrics are invalid', function(){
+            var MeasurementModel = {
+                updateMeasurement : function(index, value){}
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    body: {
+                        'timestamp': '2015-10-13',
+                        'temperature' : '32C'
+                        },
+                    measurementRequestedId: 1,
+                    params:{
+                        'time': '2015-10-12'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy()
+            }
+            measurementController.put(req, res);
+            res.status.calledWith(400).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith(constants['InvalidValues']).should.equal(true);
+        })
+    })
+    
+    describe('Patch Measurement by TimeStamp', function(){
+        it('should change metric value', function(){
+            var MeasurementModel = {
+                updateMetric : function(index, value, callback){
+                    callback();
+                }
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    body: {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature' : '32'
+                        },
+                    measurementRequestedId: 1,                    
+                    params:
+                    {
+                        'time': '2015-09-02T16:00:00.000Z'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy(),
+                json: sinon.spy()
+            }
+            var expected = {
+                'timestamp': '2015-09-02T16:00:00.000Z',
+                            'temperature' : '32'
+                        };
+            measurementController.patch(req, res);
+            res.status.calledWith(204).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.json.calledOnce.should.equal(true);
+            res.json.calledWith(expected).should.equal(true);
+        })
+        it('should not change metric with invalid values', function(){
+            var MeasurementModel = {
+                updateMetric : function(index, value, callback){
+                    callback();
+                }
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    body: {
+                        'temperature' : '32C'
+                        },
+                    measurementRequestedId: 1,
+                    measurement: {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature': '32'
+                    },
+                    params:
+                    {
+                        'time': '2015-09-02T16:00:00.000Z'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy(),
+                json: sinon.spy()
+            }
+            var expected = {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature': '32'
+                    };
+            measurementController.patch(req, res);
+            res.status.calledWith(400).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.json.calledOnce.should.equal(true);
+            res.json.calledWith(expected).should.equal(true);
+        })
+        
+        it('should not change metric if timestamp mismatch', function(){
+            var MeasurementModel = {
+                updateMetric : function(index, value, callback){}
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    body: {
+                        'timestamp': '2015-09-02T16:40:00.000Z',
+                        'temperature' : '32'
+                        },
+                    measurementRequestedId: 1,
+                    measurement: {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature': '32'
+                    },
+                    params:
+                    {
+                        'time': '2015-09-02T16:00:00.000Z'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy(),
+                json: sinon.spy()
+            }
+            var expected = {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature': '32'
+                    };
+            measurementController.patch(req, res);
+            res.status.calledWith(409).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.json.calledOnce.should.equal(true);
+            res.json.calledWith(expected).should.equal(true);
+        })
+
+        it('should not change if timestamp not found', function(){
+            var MeasurementModel = {
+                updateMetric : function(index, value, callback){}
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    body: {
+                        'temperature' : '32'
+                        },
+                    measurementRequestedId: 1,
+                    measurement: {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                        'temperature': '32'
+                    },
+                    params:
+                    {
+                        'time': '2015-09-02T16:00:00.000Z'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                send: sinon.spy(),
+                json: sinon.spy()
+            }
+            measurementController.patch(req, res);
+            res.status.calledWith(404).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith(constants['TimeStampNotFound']).should.equal(true);
+        })
+    })
+    describe('Delete Measurement', function(){
+        it('should delete the measurement by timestamp', function(){
+            var MeasurementModel = {
+                remove : function(value, callback){
+                    callback();
+                }
+            };
+            var measurementController = require(this.controllerPath)(MeasurementModel);
+
+            var req = {
+                    measurement: {
+                        'timestamp': '2015-09-02T16:00:00.000Z',
+                            'temperature' : '32'
+                        },
+                    params:
+                    {
+                        'time': '2015-09-02T16:00:00.000Z'
+                    }
+                };
+            var res = {
+                status : sinon.spy(),
+                json: sinon.spy()
+            }
+            var expected = {
+                'timestamp': '2015-09-02T16:00:00.000Z',
+                            'temperature' : '32'
+                        };
+            measurementController.deleteMeasurement(req, res);
+            res.status.calledWith(204).should.equal(true, "Status is not as expected - " + res.status.args[0]);
+            res.json.calledOnce.should.equal(true);
+            res.json.calledWith(expected).should.equal(true);
+        })
+    })
 });

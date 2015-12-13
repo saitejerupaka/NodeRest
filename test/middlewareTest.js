@@ -19,7 +19,7 @@ describe('MiddleWare Tests', function(){
 		}
 		testContext.middleware = require('../routes/middleware')(testContext.MeasurementModel);
 	});
-	it('should find indexof requested by timestamp and add to request object', function(){
+	it('should find measurement requested by timestamp and add to request object', function(){
 		var testContext = this;
 		testContext.req = {
 			params: {
@@ -31,12 +31,22 @@ describe('MiddleWare Tests', function(){
 		testContext.MeasurementModel = {
 			findRequestedTimeStampIndex : function(args){
 				return 1;
+			},
+			findByTimeStamp: function(args){
+				return{
+					'timestamp': '2015-09-01T16:00:00.000Z',
+					'temperature': '32'
+				}
 			}
 		}
 		testContext.middleware = require('../routes/middleware')(testContext.MeasurementModel);
 		this.middleware.findByRequestedTimeStamp(this.req, this.res, this.next);
 
-
+		var expected = {
+					'timestamp': '2015-09-01T16:00:00.000Z',
+					'temperature': '32'
+				};
+		this.req['measurement'].should.eql(expected);
 		this.req['measurementRequestedId'].should.equal(1);
 		this.next.calledOnce.should.equal(true);
 	})

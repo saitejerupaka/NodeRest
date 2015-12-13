@@ -1,0 +1,40 @@
+Measurement API:
+  ☐ shouldn't allow to edit timestamp.
+  ☐ Input Validations
+  ☐ Measurement Model 
+  ☐ Make Error as 404
+  ☐ Error Handler with Log
+  
+  Post:
+   ✔ Normal Save  @done (15-12-12 16:55)
+   ✔ Save without Time Stamp @done (15-12-12 16:55)
+   ✔ Save already present TimeStamp @done (15-12-12 16:55)
+   ☐ Cannot add a measurement with invalid values
+   ☐ Change error codes to 400 
+
+  Get:
+    ✔ Get All Measurements @done (15-12-12 16:55)
+    ✔ get empty measurements @done (15-12-12 16:55)
+
+  Middleware:
+    ✔ Find Index of correct timestamp @done (15-12-12 16:55)
+    ✔ Send Error if no Timestamp found  @done (15-12-12 16:55)
+    ☐ Validate TimeStamp from request 
+    ☐ 
+
+  GetByTimeStamp:
+    ✔ Get One @done (15-12-12 21:34)
+    ☐ Get a measurement that does not exist .When I get a measurement for "2015-09-01T16:50:00.000Z". Then the response has a status code of 404
+    ☐ Get measurements from a day, When I get measurements for "2015-09-01", Then the response has a status code of 200
+    ☐ Get measurement from a day where no measurements were taken.When I get measurements for "2015-09-03". Then the response has a status code of 404
+  Put:
+    ☐ Replace a measurement with mismatched timestamps
+
+  Patch:
+    ☐ Update metrics of a measurement with valid (numeric) values
+    ☐ Update metrics of a measurement with invalid values
+    ☐ Update metrics of a measurement with mismatched timestamps
+    ☐ Update metrics of a measurement that does not exist
+  Delete:
+    ☐ Delete a specific measurement
+    ☐ Delete a measurement that does not exist

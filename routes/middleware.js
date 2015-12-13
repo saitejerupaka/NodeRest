@@ -18,8 +18,10 @@ var middleware = function(MeasurementModel){
         	res.send(constants['TimeStampNotFound']);
         	return;
         }
+        var measurement = MeasurementModel.findByTimeStamp(req.params.time);
+        req.measurement = measurement;
 
-		req.measurementRequestedId = index;
+        req.measurementRequestedId = index;
 		next();
 	}
 	return {

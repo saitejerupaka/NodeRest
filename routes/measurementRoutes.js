@@ -13,15 +13,9 @@ var routes = function(MeasurementModel){
 
 	measurementRouter.route('/:time')
 		.get(measurementController.getByTimeStamp)
-		.put(function(req, res){
-			Measurements[req.measurementRequestedId].WeatherParams.Temperature = req.body.WeatherParams.Temperature;
-			Measurements[req.measurementRequestedId].WeatherParams.Dew = req.body.WeatherParams.Dew;
-			res.status(200).send();
-		})
-		.patch(function(req, res){
-			Measurements[req.measurementRequestedId].WeatherParams.Temperature = req.body.WeatherParams.Temperature;
-			res.status(200).send();
-		});
+		.put(measurementController.put)
+		.patch(measurementController.patch)
+		.delete(measurementController.deleteMeasurement);
 		
 	return measurementRouter;
 }
