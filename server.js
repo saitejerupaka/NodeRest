@@ -19,7 +19,12 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 var MeasurementModel = require('./models/measurementModel')();
 
-measurementRouter = require('./routes/measurementRoutes')(MeasurementModel);
+var measurementRouter = require('./routes/measurementRoutes')(MeasurementModel);
+
+
+var statRouter = require('./routes/statsRouter')(MeasurementModel);
+
+app.use('/api/stats',statRouter);
 
 app.use('/api/measurements', measurementRouter);
 

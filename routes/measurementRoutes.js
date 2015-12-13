@@ -1,5 +1,4 @@
 var express = require('express');
-var _ = require('lodash');
 
 var routes = function(MeasurementModel){
 	var measurementRouter = express.Router();
@@ -16,7 +15,9 @@ var routes = function(MeasurementModel){
 		.put(measurementController.put)
 		.patch(measurementController.patch)
 		.delete(measurementController.deleteMeasurement);
-		
+	
+	
+
 	return measurementRouter;
 }
 

@@ -65,6 +65,16 @@ var measurementModel = function(){
 		callback();
 	}
 
+	var findValuesInRange = function(from, to){
+		var filterBy = function(element){
+			return element['timestamp'] >= from && element['timestamp'] < to;
+
+		}
+		return lodash(Measurement).sortBy('timestamp').filter(filterBy).value();
+		
+
+	}
+
 	return {
 		save : save,
 		findByTimeStamp : findByTimeStamp,
@@ -73,7 +83,8 @@ var measurementModel = function(){
 		getByDay: getByDay,
 		updateMeasurement: updateMeasurement,
 		updateMetric: updateMetric,
-		remove: remove
+		remove: remove,
+		findValuesInRange: findValuesInRange
 	}
 }
 

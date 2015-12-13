@@ -24,8 +24,18 @@ var middleware = function(MeasurementModel){
         req.measurementRequestedId = index;
 		next();
 	}
+
+	var findMeasurementsInRange = function(req, res, next){
+		var fromDateTime = req.query.fromDateTime;
+		var toDateTime = req.query.toDateTime;
+		var measurements = MeasurementModel.findValuesInRange(fromDateTime, toDateTime);
+		req.measurementsInRange = measurements;
+		next();
+
+	}
 	return {
-		findByRequestedTimeStamp: findByRequestedTimeStamp
+		findByRequestedTimeStamp: findByRequestedTimeStamp,
+		findMeasurementsInRange : findMeasurementsInRange
 	}
 }
 

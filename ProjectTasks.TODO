@@ -38,3 +38,8 @@ Measurement API:
   Delete:
     ☐ Delete a specific measurement
     ☐ Delete a measurement that does not exist
+  Stats:
+    ☐ Get stats for a well-reported metric
+    ☐ Get stats for a sparsely reported metric
+    ☐ Get stats for a metric that has never been reported
+    ☐ Get stats for more than one metric

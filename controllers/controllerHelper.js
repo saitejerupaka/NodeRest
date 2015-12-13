@@ -8,7 +8,7 @@ var controllerHelper = function()
 				continue;
 			}
 			var floatRegex = /^[+-]?\d+(\.\d+)?$/;
-			if(!floatRegex.test(measurement[metric]))
+			if( measurement[metric] && measurement[metric].length !== 0 && !floatRegex.test(measurement[metric]))
 			{
 				isValid = false;
 				break;
