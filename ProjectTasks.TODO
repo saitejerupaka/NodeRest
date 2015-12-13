@@ -35,6 +35,7 @@ Measurement API:
     ☐ Update metrics of a measurement with invalid values
     ☐ Update metrics of a measurement with mismatched timestamps
     ☐ Update metrics of a measurement that does not exist
+    ☐ Remove Error message and send request body 
   Delete:
     ☐ Delete a specific measurement
     ☐ Delete a measurement that does not exist

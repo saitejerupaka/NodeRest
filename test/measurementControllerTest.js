@@ -1,6 +1,6 @@
 var should = require('chai').should();
 var sinon = require('sinon');
-var constants = require('../controllers/constants')();
+var constants = require('../utilities/constants')();
 
 describe('Measurement Controller Tests', function(){
     before(function(){

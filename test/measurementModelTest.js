@@ -180,22 +180,21 @@ describe("Measurement Model Test", function(){
 			var from = '2015-05-01T16:40:00.000Z';
 			var to = '2016-09-01T16:40:00.000Z'
 			var measurements = this.model.findValuesInRange(from, to);
-			var expected = [
+			var expected = [{
+                        'timestamp': '2015-09-01T16:40:00.000Z',
+                        'temperature' : 33
+                        },
                         {
                         'timestamp': '2015-09-01T16:00:00.000Z',
                         'temperature' : 34
                         },
                         {
-                        'timestamp': '2015-09-01T16:30:00.000Z',
-                        'temperature' : 35
-                        },
-                        {
-                        'timestamp': '2015-09-01T16:40:00.000Z',
-                        'temperature' : 33
-                        },
-                        {
                         'timestamp': '2015-10-01T16:40:00.000Z',
                         'temperature' : 45
+                        },
+                        {
+                        'timestamp': '2015-09-01T16:30:00.000Z',
+                        'temperature' : 35
                         }];
 			expected.should.eql(measurements);
 

@@ -1,4 +1,4 @@
-var constants = require('../controllers/constants')();
+var constants = require('../utilities/constants')();
 var middleware = function(MeasurementModel){
 	var findByRequestedTimeStamp= function(req, res, next){
 		// do validations  on request param before searching 

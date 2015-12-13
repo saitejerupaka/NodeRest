@@ -1,14 +1,13 @@
 var express = require('express');
 
-var route = function(MeasurementModel){
+var route = function(measurementModel){
 	var statsRouter = express.Router();
 
-	var middleware = require('./middleware')(MeasurementModel);
+	var middleware = require('./middleware')(measurementModel);
 	statsRouter.use('/', middleware.findMeasurementsInRange);
 	
-	statsRouter.route('/').get(function(req, res){
-			console.log(req.query);
-		});
+	var statController = require('../controllers/statController')();
+	statsRouter.route('/').get(statController.get);
 	return statsRouter;
 
 }

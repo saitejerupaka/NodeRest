@@ -70,7 +70,7 @@ var measurementModel = function(){
 			return element['timestamp'] >= from && element['timestamp'] < to;
 
 		}
-		return lodash(Measurement).sortBy('timestamp').filter(filterBy).value();
+		return lodash(Measurement).filter(filterBy).value();
 		
 
 	}

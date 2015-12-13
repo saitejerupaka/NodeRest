@@ -1,4 +1,4 @@
-var constants = require('./constants')();
+var constants = require('../utilities/constants')();
 var controllerHelper = function()
 {
 	var validateMeasurement = function(measurement){

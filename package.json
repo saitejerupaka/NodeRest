@@ -6,7 +6,7 @@
   "scripts": {
     "env": "env",
     "start": "node server.js",
-    "test": "istanbul cover _mocha -- -R spec",
+    "test": "mocha test",
     "coverage": "istanbul cover _mocha -- -R spec"
   },
   "author": "",
