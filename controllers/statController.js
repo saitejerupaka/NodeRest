@@ -10,13 +10,16 @@ var statController = function(){
 			metrics = lodash(metrics).flattenDeep().value();
 			
 			var measurementsInRange = req.measurementsInRange;
-			if(measurementsInRange.length <= 0){
+			if(measurementsInRange && measurementsInRange.length <= 0){
 			 	res.json([]);
 			 	return;
 			}
 
 			//Remove Metric if not saved previously
 			var metricsFilter = function(metric){
+				if(metric === 'timestamp'){
+					return false;
+				}
 				var savedMetrics = lodash(measurementsInRange[0]).keys().value();
 				var foundAt = lodash(savedMetrics).findIndex(function(element){
 					return element === metric;
@@ -24,10 +27,13 @@ var statController = function(){
 				if(foundAt === -1){
 					return false;
 				}
+
+
 				return true;
 			}
 
 			metrics = lodash(metrics).filter(metricsFilter).value();
+			
 			if(metrics.length <= 0){
 				res.json([]);
 				return;

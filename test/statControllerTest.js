@@ -86,6 +86,37 @@ describe('Statistics Controller Test', function(){
 		res.json.calledOnce.should.equal(true);
 		res.json.calledWith(expected).should.equal(true);
 	})
+
+	it('should return empty array if metric is timestamp', function(){
+		var req = {
+			query:{
+				stat: 'min',
+				metric: 'timestamp'
+			},
+			measurementsInRange: [{
+                        'timestamp': '2015-09-01T16:40:00.000Z',
+                        'temperature' : ''
+                        },
+                        {
+                        'timestamp': '2015-09-01T16:00:00.000Z',
+                        'temperature' : '34'
+                        },
+                        {
+                        'timestamp': '2015-09-01T16:30:00.000Z',
+                        'temperature' : '35'
+                        }]
+		};
+		var res = {
+			json: sinon.spy()
+		}
+
+		this.controller.get(req, res);
+
+		var expected = []
+		res.json.calledOnce.should.equal(true);
+		res.json.calledWith(expected).should.equal(true);
+	})
+
 	it('should return array(1) even if sparsly populated', function(){
 		var req = {
 			query:{
