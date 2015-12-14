@@ -4,24 +4,25 @@ describe("Measurement Model Test", function(){
 	describe("get by timestamp", function(){
 		beforeEach(function(){
 			this.model = require('../models/measurementModel')();
+			var callback = function(){};
 			this.model.save({
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature' : 33
-                        });
+                        }, callback);
 
 			this.model.save({
                         'timestamp': '2015-09-01T16:00:00.000Z',
                         'temperature' : 34
-                        });
+                        }, callback);
 			this.model.save({
                         'timestamp': '2015-10-01T16:40:00.000Z',
                         'temperature' : 45
-                        });
+                        }, callback);
 			
 			this.model.save({
                         'timestamp': '2015-09-01T16:30:00.000Z',
                         'temperature' : 35
-                        });
+                        },callback);
 			
 		})
 		it('should get one with exact timestamp', function(){
@@ -119,24 +120,25 @@ describe("Measurement Model Test", function(){
 	describe('test range', function(){
 		beforeEach(function(){
 			this.model = require('../models/measurementModel')();
+			var callback = function(){};
 			this.model.save({
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature' : 33
-                        });
+                        }, callback);
 
 			this.model.save({
                         'timestamp': '2015-09-01T16:00:00.000Z',
                         'temperature' : 34
-                        });
+                        }, callback);
 			this.model.save({
                         'timestamp': '2015-10-01T16:40:00.000Z',
                         'temperature' : 45
-                        });
+                        }, callback);
 			
 			this.model.save({
                         'timestamp': '2015-09-01T16:30:00.000Z',
                         'temperature' : 35
-                        });
+                        }, callback);
 			
 		})
 		it('should select values in Range returns no elements', function(){

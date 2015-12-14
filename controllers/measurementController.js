@@ -25,9 +25,13 @@ var measurementController = function(MeasurementModel)
 				return;
 			}
 
-			MeasurementModel.save(measurement);
-			res.status(200);
-			res.send();
+			var callback = function(){
+				res.status(201);
+				res.location('/measurements/'+measurement['timestamp']);
+				res.send();
+			}
+			MeasurementModel.save(measurement, callback);
+			
 		};
 
 	var get = function(req, res){
@@ -68,11 +72,13 @@ var measurementController = function(MeasurementModel)
 				return;
 			}
 
-
+			var callback = function(){
+				res.status(204)
+				res.send();
+			}
 			
-			MeasurementModel.updateMeasurement(req.measurementRequestedId, measurement);
-			res.status(204)
-			res.json(measurement);
+			MeasurementModel.updateMeasurement(req.measurementRequestedId, measurement, callback());
+			
 		};
 
 		var patch = function(req, res){
@@ -80,7 +86,7 @@ var measurementController = function(MeasurementModel)
 			var controllerHelper = require('./controllerHelper')();
 			if(!controllerHelper.validateMeasurement(measurement)){
 				res.status(400);
-				res.json(req.measurement);
+				res.send(constants['InvalidValues']);
 				return;
 			}
 
@@ -94,7 +100,7 @@ var measurementController = function(MeasurementModel)
 			if(req.params['time'] !== measurement['timestamp'])
 			{
 				res.status(409);
-				res.json(req.measurement);
+				res.send(constants['MismatchedTimeStamps']);
 				return;
 			}
 
@@ -105,8 +111,8 @@ var measurementController = function(MeasurementModel)
 					res.send(error);
 				}
 				else{
-					res.status(204)
-					res.json(measurement);
+					res.status(204);
+					res.send();
 				}
 			};
 			MeasurementModel.updateMetric(req.measurementRequestedId, measurement, callback);

@@ -26,8 +26,10 @@ var middleware = function(MeasurementModel){
 	}
 
 	var findMeasurementsInRange = function(req, res, next){
+
 		var fromDateTime = req.query.fromDateTime;
 		var toDateTime = req.query.toDateTime;
+		
 		var measurements = MeasurementModel.findValuesInRange(fromDateTime, toDateTime);
 		req.measurementsInRange = measurements;
 		next();

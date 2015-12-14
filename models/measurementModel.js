@@ -3,10 +3,10 @@ var measurementModel = function(){
 	var lodash = require('lodash');
 	Measurement = [];
 
-	var save = function(arguments)
+	var save = function(measurement, callback)
 	{
-		Measurement.push(arguments);
-		//console.log(Measurement);
+		Measurement.push(measurement);
+		callback();
 	}
 
 	var findByTimeStamp = function(timestamp)
@@ -42,8 +42,9 @@ var measurementModel = function(){
 		return index;
 	};
 
-	var updateMeasurement = function(index, measurementValue){
+	var updateMeasurement = function(index, measurementValue, callback){
 		Measurement[index] = measurementValue;	
+		callback();
 	};
 
 	var updateMetric = function(index, measurementValue, callback){

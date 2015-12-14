@@ -16,7 +16,7 @@ describe('Measurement Controller Tests', function(){
 		before(function(){
 			var testContext = this;
 			testContext.MeasurementModel = {
-                save: function(arg){},
+                save: function(measurement, callback){ callback();},
                 findByTimeStamp: function(args){
                     return false;
                 }};
@@ -34,12 +34,16 @@ describe('Measurement Controller Tests', function(){
 				};
 			var res = {
 				status : sinon.spy(),
-                send: sinon.spy()
+                send: sinon.spy(),
+                location: sinon.spy()
 			}
+            var locationHeader = '/measurements/2015'
 			measurementController.post(req, res);
-			res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
+			res.status.calledWith(201).should.equal(true, 'Bad Status ' + res.status.args[0]);
+            res.location.calledWith(locationHeader).should.equal(true);
             res.send.calledWith().should.equal(true);
             res.send.calledOnce.should.equal(true);
+
 		});
         it('should save a metric with value 32.32', function(){
 
@@ -52,10 +56,13 @@ describe('Measurement Controller Tests', function(){
                 };
             var res = {
                 status : sinon.spy(),
-                send: sinon.spy()
+                send: sinon.spy(),
+                location: sinon.spy()
             }
+            var locationHeader = '/measurements/2015'
             measurementController.post(req, res);
-            res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
+            res.status.calledWith(201).should.equal(true, 'Bad Status ' + res.status.args[0]);
+            res.location.calledWith(locationHeader).should.equal(true);
             res.send.calledWith().should.equal(true);
             res.send.calledOnce.should.equal(true);
         });
@@ -99,10 +106,13 @@ describe('Measurement Controller Tests', function(){
                 };
             var res = {
                 status : sinon.spy(),
-                send: sinon.spy()
+                send: sinon.spy(),
+                location: sinon.spy()
             }
+            var locationHeader = '/measurements/2015'
             measurementController.post(req, res);
-            res.status.calledWith(200).should.equal(true, 'Bad Status ' + res.status.args[0]);
+            res.status.calledWith(201).should.equal(true, 'Bad Status ' + res.status.args[0]);
+            res.location.calledWith(locationHeader).should.equal(true);
             res.send.calledWith().should.equal(true);
             res.send.calledOnce.should.equal(true);
         });
@@ -286,20 +296,16 @@ describe('Measurement Controller Tests', function(){
             var res = {
                 status : sinon.spy(),
                 send: sinon.spy(),
-                json: sinon.spy()
+                
             }
-            var expected = {
-                        'timestamp': '2015',
-                        'temperature' : '32'
-                        };
-            measurementController.put(req, res);
+           measurementController.put(req, res);
             res.status.calledWith(204).should.equal(true, "Status is not as expected - " + res.status.args[0]);
-            res.json.calledOnce.should.equal(true);
-            res.json.calledWith(expected).should.equal(true);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith().should.equal(true);
         })
         it('should not replace if timestamp is different', function(){
             var MeasurementModel = {
-                updateMeasurement : function(index, value){}
+                updateMeasurement : function(index, value, callback){callback();}
             };
             var measurementController = require(this.controllerPath)(MeasurementModel);
 
@@ -371,17 +377,12 @@ describe('Measurement Controller Tests', function(){
                 };
             var res = {
                 status : sinon.spy(),
-                send: sinon.spy(),
-                json: sinon.spy()
+                send: sinon.spy()
             }
-            var expected = {
-                'timestamp': '2015-09-02T16:00:00.000Z',
-                            'temperature' : '32'
-                        };
-            measurementController.patch(req, res);
+             measurementController.patch(req, res);
             res.status.calledWith(204).should.equal(true, "Status is not as expected - " + res.status.args[0]);
-            res.json.calledOnce.should.equal(true);
-            res.json.calledWith(expected).should.equal(true);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith().should.equal(true);
         })
         it('should not change metric with invalid values', function(){
             var MeasurementModel = {
@@ -410,14 +411,11 @@ describe('Measurement Controller Tests', function(){
                 send: sinon.spy(),
                 json: sinon.spy()
             }
-            var expected = {
-                        'timestamp': '2015-09-02T16:00:00.000Z',
-                        'temperature': '32'
-                    };
+            
             measurementController.patch(req, res);
             res.status.calledWith(400).should.equal(true, "Status is not as expected - " + res.status.args[0]);
-            res.json.calledOnce.should.equal(true);
-            res.json.calledWith(expected).should.equal(true);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith(constants['InvalidValues']).should.equal(true);
         })
         
         it('should not change metric if timestamp mismatch', function(){
@@ -446,14 +444,10 @@ describe('Measurement Controller Tests', function(){
                 send: sinon.spy(),
                 json: sinon.spy()
             }
-            var expected = {
-                        'timestamp': '2015-09-02T16:00:00.000Z',
-                        'temperature': '32'
-                    };
             measurementController.patch(req, res);
             res.status.calledWith(409).should.equal(true, "Status is not as expected - " + res.status.args[0]);
-            res.json.calledOnce.should.equal(true);
-            res.json.calledWith(expected).should.equal(true);
+            res.send.calledOnce.should.equal(true);
+            res.send.calledWith(constants['MismatchedTimeStamps']).should.equal(true);
         })
 
         it('should not change if timestamp not found', function(){

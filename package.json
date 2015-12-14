@@ -6,8 +6,9 @@
   "scripts": {
     "env": "env",
     "start": "node server.js",
-    "test": "mocha test",
-    "coverage": "istanbul cover _mocha -- -R spec"
+    "test": "istanbul cover _mocha -- -R spec",
+    "coverage": "istanbul cover _mocha -- -R spec",
+    "prepare": "echo \" nothing to prepae \" "
   },
   "author": "",
   "license": "ISC",
