@@ -16,7 +16,7 @@ var arguments = cli.parse();
 var port = arguments.port || 3000;
 var host = arguments.host || 'localhost';
 
-app.use(logger('dev'));
+app.use(logger('dev'));// log level dev 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -36,15 +36,34 @@ app.get('/', function(req, res){
 	res.send("Welcome! New app");
 });
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+//Exception handler - doesn't send complete stack trace as response
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+    error: {}
+  });
+});
+
 var server = app.listen(port, host);
 server.on('listening', function () {
   var host = server.address().address;
   var port = server.address().port;
 
   console.log('Server listening at http://%s:%s', host, port);
+  console.log('Logs-format')
+  console.log(':method :url :status :response-time ms - :res[content-length]')
 });
 server.on('error', function(res){
 	console.log("Error starting server: " + res);
 });
+
 
 

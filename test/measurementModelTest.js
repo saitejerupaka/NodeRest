@@ -1,4 +1,5 @@
 var should = require('chai').should();
+var sinon = require('sinon');
 
 describe("Measurement Model Test", function(){
 	describe("get and updateMetric timestamp", function(){
@@ -40,30 +41,31 @@ describe("Measurement Model Test", function(){
 		})
 		it('should get empty array if no timestamp found', function(){
 			
-			
-			var measurements = this.model.getByDay('2015-11-01T16:00:00.000Z');
+			var callback = sinon.spy();
+			this.model.getByDay('2015-11-01T16:00:00.000Z', callback);
 
 			var expected = [];
                    
-             measurements.should.eql(expected);
+             callback.calledWith(expected).should.eql(true);
 			
 		})
 		it('should get 1 on a day', function(){
 			
-			
-			var measurements = this.model.getByDay('2015-10-01');
+			var callback = sinon.spy();
+			this.model.getByDay('2015-10-01T16:40:00.000Z', callback);
 
 			var expected = [{
                         'timestamp': '2015-10-01T16:40:00.000Z',
                         'temperature' : 45
                         }];
-             measurements.should.eql(expected);
+             callback.calledWith(expected).should.eql(true);
 			
 		})
 		it('should get all  3 on a day', function(){
 			
 			
-			var measurements = this.model.getByDay('2015-09-01');
+			var callback = sinon.spy();
+			this.model.getByDay('2015-09-01', callback);
 
 			var expected = [{
                         'timestamp': '2015-09-01T16:40:00.000Z',
@@ -77,7 +79,7 @@ describe("Measurement Model Test", function(){
                         'timestamp': '2015-09-01T16:30:00.000Z',
                         'temperature' : 35
                         }];
-             measurements.should.eql(expected);
+             callback.calledWith(expected).should.eql(true);
 			
 		})
 		it('should update metric with timestamp', function(){

@@ -44,19 +44,24 @@ var measurementController = function (MeasurementModel) {
         	res.send();
         	return;
 		}
-        var measurements = MeasurementModel.getByDay(requestParam);
 
-        if(measurements.length <= 0){
-        	res.status(404);
-        	res.send();
-        	return;
-        }
+        var callback = function (measurements) {
+            if(measurements.length <= 0){
+                res.status(404);
+                res.send();
+                return;
+            }
 
-        if (requestParam.search('T') > 0) {
-            res.json(measurements[0]);
-        } else {
-            res.json(measurements);
-        }
+            if (requestParam.search('T') > 0) {
+                res.json(measurements[0]);
+            } else {
+                res.json(measurements);
+            }
+        };
+
+        MeasurementModel.getByDay(requestParam, callback);
+
+       
 
     };
 

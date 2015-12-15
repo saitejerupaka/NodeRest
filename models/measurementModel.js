@@ -18,7 +18,7 @@ var measurementModel = function() {
         return Measurement;
     }
 
-    var getByDay = function(timestamp) {
+    var getByDay = function(timestamp, callback) {
         var response = [];
         var pushAllWithSameTimeStamp = function(element) {
             if (lodash(element['timestamp']).startsWith(timestamp)) {
@@ -27,7 +27,7 @@ var measurementModel = function() {
         }
         lodash(Measurement).forEach(pushAllWithSameTimeStamp).value();
 
-        return response;
+       callback(response);
 
 
     };

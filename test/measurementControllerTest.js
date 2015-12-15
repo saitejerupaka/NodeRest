@@ -253,11 +253,8 @@ describe('Measurement Controller Tests', function () {
             }
             var MeasurementModel = {
 
-                getByDay: function (args) {
-                    return [{
-                        'timestamp': '2015-09-01T16:40:00.000Z',
-                        'temperature': 33
-                    }];
+                getByDay: function (args, callback) {
+                    callback([]);
                 }
             };
             var measurementController = require(this.controllerPath)(MeasurementModel);
@@ -280,8 +277,8 @@ describe('Measurement Controller Tests', function () {
             }
             var MeasurementModel = {
 
-                getByDay: function (args) {
-                    return [];
+                getByDay: function (args, callback) {
+                    callback([]);
                 }
             };
             var measurementController = require(this.controllerPath)(MeasurementModel);
@@ -304,11 +301,11 @@ describe('Measurement Controller Tests', function () {
             }
             var MeasurementModel = {
 
-                getByDay: function (args) {
-                    return [{
+                getByDay: function (args, callback) {
+                    callback([{
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature': 33
-                    }];
+                    }]);
                 }
             }
             var measurementController = require(this.controllerPath)(MeasurementModel);
@@ -334,8 +331,8 @@ describe('Measurement Controller Tests', function () {
             }
             var MeasurementModel = {
 
-                getByDay: function (args) {
-                    return [{
+                getByDay: function (args, callback) {
+                    callback([{
                         'timestamp': '2015-09-01T16:40:00.000Z',
                         'temperature': 33
                     }, {
@@ -344,7 +341,7 @@ describe('Measurement Controller Tests', function () {
                     }, {
                         'timestamp': '2015-09-01T16:30:00.000Z',
                         'temperature': 35
-                    }];
+                    }]);
                 }
             }
             var measurementController = require(this.controllerPath)(MeasurementModel);
