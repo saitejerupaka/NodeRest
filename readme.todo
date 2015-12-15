@@ -1,0 +1,21 @@
+Frameworks Used:
+  ☐ Command-line args : to read port and host from command line
+  ☐ Body parser : middleware to parse request content and attach to request body
+  ☐ Morgan : to log server response to console
+  ☐ Mocha: Testing framework
+  ☐ Chai: Assertion library
+  ☐ Sinon: to create test mocks, spies and stubs
+  ☐ Istanbul: for code coverage 
+  ☐ Lodash: utility library
+
+Project Structure:
+  ☐ server.js is starting point 
+  ☐ Routes folder has the route methods and also middleware
+  ☐ Controllers folder has the logic
+  ☐ Model does the data related functions
+  ☐ Test have unit tests for related controllers, models and middleware
+  ☐ Utility has files for statistic methods
+
+
+
+ 
