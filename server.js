@@ -4,6 +4,7 @@ var commandLineArgs = require('command-line-args');
 
 var app = express();
 
+//Read host and port from command line with npm start 
 var definition = [
   { name: 'host', type: String, description: 'Takes the host address'},
   { name: 'port', type: Number, description: 'Takes port Number' }
@@ -17,12 +18,12 @@ var host = arguments.host || 'localhost';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-var MeasurementModel = require('./models/measurementModel')();
+var measurementModel = require('./models/measurementModel')();
 
-var measurementRouter = require('./routes/measurementRoutes')(MeasurementModel);
+var measurementRouter = require('./routes/measurementRoutes')(measurementModel);
 
 
-var statRouter = require('./routes/statsRouter')(MeasurementModel);
+var statRouter = require('./routes/statsRouter')(measurementModel);
 
 app.use('/api/stats',statRouter);
 

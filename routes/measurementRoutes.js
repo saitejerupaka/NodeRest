@@ -8,8 +8,10 @@ var routes = function(MeasurementModel){
 		.get(measurementController.get);
 
 	var middleware = require('./middleware')(MeasurementModel);
-	measurementRouter.use('/:time', middleware.findByRequestedTimeStamp);
-
+	measurementRouter.put('/:time', middleware.findByRequestedTimeStamp);
+	measurementRouter.patch('/:time', middleware.findByRequestedTimeStamp);
+	measurementRouter.delete('/:time', middleware.findByRequestedTimeStamp);
+	
 	measurementRouter.route('/:time')
 		.get(measurementController.getByTimeStamp)
 		.put(measurementController.put)

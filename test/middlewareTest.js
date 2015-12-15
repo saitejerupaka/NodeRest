@@ -101,6 +101,7 @@ describe('MiddleWare Tests', function(){
 			res.status.calledWith(400).should.equal(true, "Status is wrong-" + res.status.args[0]);
 			res.send.calledWith(constants['InvalidRequestParam']).should.equal(true, "Wrong Message sent");
 		})
+		
 	})
 	
 	describe('Statistics Tests', function(){

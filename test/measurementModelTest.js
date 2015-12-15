@@ -38,6 +38,16 @@ describe("Measurement Model Test", function(){
              measurements.should.eql(expected);
 			
 		})
+		it('should get empty array if no timestamp found', function(){
+			
+			
+			var measurements = this.model.getByDay('2015-11-01T16:00:00.000Z');
+
+			var expected = [];
+                   
+             measurements.should.eql(expected);
+			
+		})
 		it('should get 1 on a day', function(){
 			
 			

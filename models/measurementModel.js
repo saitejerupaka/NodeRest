@@ -1,92 +1,89 @@
+var measurementModel = function() {
+    var lodash = require('lodash');
+    Measurement = [];
 
-var measurementModel = function(){
-	var lodash = require('lodash');
-	Measurement = [];
+    var save = function(measurement, callback) {
+        Measurement.push(measurement);
+        callback();
+    }
 
-	var save = function(measurement, callback)
-	{
-		Measurement.push(measurement);
-		callback();
-	}
+    var findByTimeStamp = function(timestamp) {
+        var found = lodash(Measurement).find({
+            'timestamp': timestamp
+        });
+        return found;
+    }
 
-	var findByTimeStamp = function(timestamp)
-	{
-		//console.log(arguments);
-		var found = lodash(Measurement).find({ 'timestamp' : timestamp });
-		//console.log(found);
-		return found;
-	}
+    var getAll = function() {
+        return Measurement;
+    }
 
-	var getAll = function(){
-		return Measurement;
-	}
+    var getByDay = function(timestamp) {
+        var response = [];
+        var pushAllWithSameTimeStamp = function(element) {
+            if (lodash(element['timestamp']).startsWith(timestamp)) {
+                response.push(element);
+            }
+        }
+        lodash(Measurement).forEach(pushAllWithSameTimeStamp).value();
 
-	var getByDay = function(timestamp){
-		var response = [];
-		var pushAllWithSameTimeStamp = function(element){
-			if(lodash(element['timestamp']).startsWith(timestamp))
-			{	
-				response.push(element);
-			}
-		}
-		lodash(Measurement).forEach(pushAllWithSameTimeStamp).value();
+        return response;
 
-		return response;
 
-		
-	};
+    };
 
-	var findRequestedTimeStampIndex = function(timestamp)
-	{
-		var index = lodash(Measurement).findIndex({ 'timestamp' : timestamp });
-		return index;
-	};
+    var findRequestedTimeStampIndex = function(timestamp) {
+        var index = lodash(Measurement).findIndex({
+            'timestamp': timestamp
+        });
+        return index;
+    };
 
-	var updateMeasurement = function(index, measurementValue, callback){
-		Measurement[index] = measurementValue;	
-		callback();
-	};
+    var updateMeasurement = function(index, measurementValue, callback) {
+        Measurement[index] = measurementValue;
+        callback();
+    };
 
-	var updateMetric = function(index, measurementValue, callback){
-		if(measurementValue['timestamp'])
-			{
-				delete measurementValue['timestamp'];
-			}
-		for(var metric in measurementValue)
-		{
-			Measurement[index][metric] = measurementValue[metric];
-		
-		}
+    var updateMetric = function(index, measurementValue, callback) {
+        if (measurementValue['timestamp']) {
+            delete measurementValue['timestamp'];
+        }
+        for (var metric in measurementValue) {
+            Measurement[index][metric] = measurementValue[metric];
 
-		callback();
-	}
+        }
 
-	var remove = function(timestamp, callback){
-		Measurement = lodash(Measurement).reject({'timestamp': timestamp}).value();
-		callback();
-	}
+        callback();
+    }
 
-	var findValuesInRange = function(from, to){
-		var filterBy = function(element){
-			return element['timestamp'] >= from && element['timestamp'] < to;
+    var remove = function(timestamp, callback) {
+        Measurement = lodash(Measurement).reject({
+            'timestamp': timestamp
+        }).value();
+        callback();
+    }
+
+    var findValuesInRange = function(from, to) {
+        var filterBy = function(element) {
+            return element['timestamp'] >= from && element['timestamp'] < to;
 
 		}
-		return lodash(Measurement).filter(filterBy).value();
-		
+        return lodash(Measurement).filter(filterBy).value();
 
-	}
 
-	return {
-		save : save,
-		findByTimeStamp : findByTimeStamp,
-		getAll: getAll,
-		findRequestedTimeStampIndex : findRequestedTimeStampIndex,
-		getByDay: getByDay,
-		updateMeasurement: updateMeasurement,
-		updateMetric: updateMetric,
-		remove: remove,
-		findValuesInRange: findValuesInRange
-	}
+    }
+
+    return {
+        save: save,
+        findByTimeStamp: findByTimeStamp,
+        getAll: getAll,
+        findRequestedTimeStampIndex: findRequestedTimeStampIndex,
+        getByDay: getByDay,
+        updateMeasurement: updateMeasurement,
+        updateMetric: updateMetric,
+        remove: remove,
+        findValuesInRange: findValuesInRange
+    }
 }
 
 
