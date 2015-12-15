@@ -32,7 +32,7 @@ describe('Measurement Controller Tests', function () {
             var measurementController = this.measurementController;
             var req = {
                 body: {
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32'
                 }
             };
@@ -41,7 +41,7 @@ describe('Measurement Controller Tests', function () {
                 send: sinon.spy(),
                 location: sinon.spy()
             }
-            var locationHeader = '/measurements/2015'
+            var locationHeader = '/measurements/2015-09-01T16:00:00.000Z'
             measurementController.post(req, res);
             res.status.calledWith(201)
                 .should.equal(true, 'Bad Status ' + res.status.args[0]);
@@ -57,7 +57,7 @@ describe('Measurement Controller Tests', function () {
             var measurementController = this.measurementController;
             var req = {
                 body: {
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32.32'
                 }
             };
@@ -66,7 +66,7 @@ describe('Measurement Controller Tests', function () {
                 send: sinon.spy(),
                 location: sinon.spy()
             }
-            var locationHeader = '/measurements/2015'
+            var locationHeader = '/measurements/2015-09-01T16:00:00.000Z'
             measurementController.post(req, res);
             res.status.calledWith(201)
                 .should.equal(true, 'Bad Status ' + res.status.args[0]);
@@ -79,7 +79,7 @@ describe('Measurement Controller Tests', function () {
         it('should not save on same timestamp', function () {
             this.MeasurementModel = {
                 measurement: [{
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': 32
                 }],
                 save: function (arg) {},
@@ -90,7 +90,7 @@ describe('Measurement Controller Tests', function () {
             var measurementController = require('../controllers/measurementController')(this.MeasurementModel);
             var req = {
                 body: {
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32'
                 }
             }
@@ -112,7 +112,7 @@ describe('Measurement Controller Tests', function () {
             var measurementController = this.measurementController;
             var req = {
                 body: {
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '-273.30'
                 }
             };
@@ -121,7 +121,7 @@ describe('Measurement Controller Tests', function () {
                 send: sinon.spy(),
                 location: sinon.spy()
             }
-            var locationHeader = '/measurements/2015'
+            var locationHeader = '/measurements/2015-09-01T16:00:00.000Z'
             measurementController.post(req, res);
             res.status.calledWith(201)
                 .should.equal(true, 'Bad Status ' + res.status.args[0]);
@@ -175,7 +175,7 @@ describe('Measurement Controller Tests', function () {
         it('should not save if metrics are not float values', function () {
             var req = {
                 body: {
-                    'timestamp': '2015-10-01',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': 'sa'
                 }
             }
@@ -200,7 +200,7 @@ describe('Measurement Controller Tests', function () {
             testContext.MeasurementModel = {
                 getAll: function () {
                     var Measurement = [{
-                        'timestamp': '2015',
+                        'timestamp': '2015-09-01T16:00:00.000Z',
                         'temperature': 32
                     }];
                     return Measurement;
@@ -232,7 +232,7 @@ describe('Measurement Controller Tests', function () {
 
             this.measurementController.get(this.req, this.res);
             var expected = [{
-                'timestamp': '2015',
+                'timestamp': '2015-09-01T16:00:00.000Z',
                 'temperature': 32
             }];
             this.res.json.calledWith(expected)
@@ -375,12 +375,12 @@ describe('Measurement Controller Tests', function () {
 
             var req = {
                 body: {
-                    'timestamp': '2015',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32'
                 },
                 measurementRequestedId: 1,
                 params: {
-                    'time': '2015'
+                    'time': '2015-09-01T16:00:00.000Z'
                 },
                 is: function(){return true;}
             };
@@ -406,12 +406,12 @@ describe('Measurement Controller Tests', function () {
 
             var req = {
                 body: {
-                    'timestamp': '2015-10-13',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32'
                 },
                 measurementRequestedId: 1,
                 params: {
-                    'time': '2015-10-12'
+                    'time': '2015-10-01T16:00:00.000Z'
                 },
                 is: function(){return true;}
             };
@@ -434,12 +434,12 @@ describe('Measurement Controller Tests', function () {
 
             var req = {
                 body: {
-                    'timestamp': '2015-10-13',
+                    'timestamp': '2015-09-01T16:00:00.000Z',
                     'temperature': '32C'
                 },
                 measurementRequestedId: 1,
                 params: {
-                    'time': '2015-10-12'
+                    'time': '2015-09-01T16:00:00.000Z'
                 },
                 is: function(){return true;}
             };

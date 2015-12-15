@@ -1,4 +1,5 @@
 var express = require('express');
+var logger = require('morgan');
 var bodyParser = require('body-parser');
 var commandLineArgs = require('command-line-args');
 
@@ -15,6 +16,8 @@ var arguments = cli.parse();
 var port = arguments.port || 3000;
 var host = arguments.host || 'localhost';
 
+app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -25,9 +28,9 @@ var measurementRouter = require('./routes/measurementRoutes')(measurementModel);
 
 var statRouter = require('./routes/statsRouter')(measurementModel);
 
-app.use('/api/stats',statRouter);
+app.use('/stats',statRouter);
 
-app.use('/api/measurements', measurementRouter);
+app.use('/measurements', measurementRouter);
 
 app.get('/', function(req, res){
 	res.send("Welcome! New app");

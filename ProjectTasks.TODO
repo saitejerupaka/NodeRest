@@ -6,7 +6,7 @@ Measurement API:
   ☐ Error Handler with Log
   
   Post:
-   ☐ Normal Save - Change Location Header Path
+   ✔ Normal Save - Change Location Header Path @done (15-12-14 17:42)
    ✔ Save without Time Stamp @done (15-12-12 16:55)
    ✔ Save already present TimeStamp @done (15-12-12 16:55)
    ☐ Cannot add a measurement with invalid values

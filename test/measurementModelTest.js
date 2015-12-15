@@ -1,7 +1,7 @@
 var should = require('chai').should();
 
 describe("Measurement Model Test", function(){
-	describe("get by timestamp", function(){
+	describe("get and updateMetric timestamp", function(){
 		beforeEach(function(){
 			this.model = require('../models/measurementModel')();
 			var callback = function(){};
@@ -25,7 +25,7 @@ describe("Measurement Model Test", function(){
                         },callback);
 			
 		})
-		it('should get one with exact timestamp', function(){
+		it('should find one with exact timestamp', function(){
 			
 			
 			var measurements = this.model.findByTimeStamp('2015-09-01T16:00:00.000Z');
@@ -127,7 +127,7 @@ describe("Measurement Model Test", function(){
 
 	})
 
-	describe('test range', function(){
+	describe('find range of timestamp', function(){
 		beforeEach(function(){
 			this.model = require('../models/measurementModel')();
 			var callback = function(){};
